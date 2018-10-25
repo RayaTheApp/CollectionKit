@@ -17,7 +17,8 @@ open class BasicProvider<Data, View: UIView>: ItemProvider, LayoutableProvider, 
   open var layout: Layout { didSet { setNeedsInvalidateLayout() } }
   open var animator: Animator? { didSet { setNeedsReload() } }
   open var tapHandler: TapHandler?
-
+  open var longPressHandler: TapHandler?
+  
   public typealias TapHandler = (TapContext) -> Void
 
   public struct TapContext {
@@ -40,13 +41,15 @@ open class BasicProvider<Data, View: UIView>: ItemProvider, LayoutableProvider, 
               sizeSource: SizeSource<Data> = SizeSource<Data>(),
               layout: Layout = FlowLayout(),
               animator: Animator? = nil,
-              tapHandler: TapHandler? = nil) {
+              tapHandler: TapHandler? = nil,
+              longPressHandler: TapHandler? = nil) {
     self.dataSource = dataSource
     self.viewSource = viewSource
     self.layout = layout
     self.sizeSource = sizeSource
     self.animator = animator
     self.tapHandler = tapHandler
+    self.longPressHandler = longPressHandler
     self.identifier = identifier
   }
 
@@ -74,6 +77,12 @@ open class BasicProvider<Data, View: UIView>: ItemProvider, LayoutableProvider, 
     if let tapHandler = tapHandler {
       let context = TapContext(view: view as! View, index: at, dataSource: dataSource)
       tapHandler(context)
+    }
+  }
+  open func didLongPress(view: UIView, at: Int) {
+    if let longPressHandler = longPressHandler {
+      let context = TapContext(view: view as! View, index: at, dataSource: dataSource)
+      longPressHandler(context)
     }
   }
   open func hasReloadable(_ reloadable: CollectionReloadable) -> Bool {

@@ -57,7 +57,8 @@ open class ComposedHeaderProvider<HeaderView: UIView>:
   }
 
   open var tapHandler: TapHandler?
-
+  open var longPressHandler: TapHandler?
+  
   public typealias TapHandler = (TapContext) -> Void
 
   public struct TapContext {
@@ -75,7 +76,8 @@ open class ComposedHeaderProvider<HeaderView: UIView>:
               headerViewSource: HeaderViewSource,
               headerSizeSource: HeaderSizeSource,
               sections: [Provider] = [],
-              tapHandler: TapHandler? = nil) {
+              tapHandler: TapHandler? = nil,
+              longPressHandler: TapHandler? = nil) {
     self.animator = animator
     self.stickyLayout = StickyLayout(rootLayout: layout)
     self.sections = sections
@@ -83,6 +85,7 @@ open class ComposedHeaderProvider<HeaderView: UIView>:
     self.headerViewSource = headerViewSource
     self.headerSizeSource = headerSizeSource
     self.tapHandler = tapHandler
+    self.longPressHandler = longPressHandler
   }
 
   open var numberOfItems: Int {
@@ -135,6 +138,13 @@ open class ComposedHeaderProvider<HeaderView: UIView>:
       let index = at / 2
       let context = TapContext(view: view as! HeaderView, index: index, section: sections[index])
       tapHandler(context)
+    }
+  }
+  
+  open func didLongPress(view: UIView, at: Int) {
+    if let longPressHandler = longPressHandler {
+      let context = TapContext(view: view as! HeaderView, index: at, section: sections[at])
+      longPressHandler(context)
     }
   }
 

@@ -11,8 +11,8 @@ import UIKit
 public protocol ItemProvider: Provider {
   func view(at: Int) -> UIView
   func update(view: UIView, at: Int)
-
   func didTap(view: UIView, at: Int)
+  func didLongPress(view: UIView, at: Int)
 }
 
 extension ItemProvider {
