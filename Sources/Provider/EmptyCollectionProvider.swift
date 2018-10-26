@@ -9,6 +9,7 @@
 import UIKit
 
 open class EmptyCollectionProvider: ItemProvider, CollectionReloadable {
+
   public var identifier: String?
 
   public init(identifier: String? = nil) {
@@ -43,8 +44,8 @@ open class EmptyCollectionProvider: ItemProvider, CollectionReloadable {
 
   open func willReload() {}
   open func didReload() {}
-  open func didTap(view: UIView, at: Int) {}
-  open func didLongPress(view: UIView, at: Int) {}
+  open func didTap(view: UIView, at: Int, gesture: UITapGestureRecognizer) {}
+  open func didLongPress(view: UIView, at: Int, gesture: UILongPressGestureRecognizer) {}
   
   open func hasReloadable(_ reloadable: CollectionReloadable) -> Bool {
     return reloadable === self

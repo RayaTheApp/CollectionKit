@@ -64,7 +64,7 @@ extension CollectionView {
 extension BasicProvider {
   public typealias OldTapHandler = (View, Int, DataSource<Data>) -> Void
 
-  private static func convertTapHandler(_ tapHandler: OldTapHandler?) -> TapHandler? {
+  private static func convertTapHandler(_ tapHandler: OldTapHandler?) -> GestureHandler? {
     if let tapHandler = tapHandler {
       return { context in
         tapHandler(context.view, context.index, context.dataSource)

@@ -66,7 +66,7 @@ open class CollectionView: UIScrollView {
   @objc func tap(gesture: UITapGestureRecognizer) {
     for (cell, index) in zip(visibleCells, visibleIndexes).reversed() {
       if cell.point(inside: gesture.location(in: cell), with: nil) {
-        flattenedProvider.didTap(view: cell, at: index)
+        flattenedProvider.didTap(view: cell, at: index, gesture: gesture)
         return
       }
     }
@@ -75,7 +75,7 @@ open class CollectionView: UIScrollView {
   @objc func longPress(gesture: UILongPressGestureRecognizer) {
     for (cell, index) in zip(visibleCells, visibleIndexes).reversed() {
       if cell.point(inside: gesture.location(in: cell), with: nil) {
-        flattenedProvider.didLongPress(view: cell, at: index)
+        flattenedProvider.didLongPress(view: cell, at: index, gesture: gesture)
         return
       }
     }

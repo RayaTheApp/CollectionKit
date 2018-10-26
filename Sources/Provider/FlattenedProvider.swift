@@ -128,15 +128,15 @@ struct FlattenedProvider: ItemProvider {
     provider.didReload()
   }
 
-  func didTap(view: UIView, at: Int) {
+  func didTap(view: UIView, at: Int, gesture: UITapGestureRecognizer) {
     apply(at) {
-      $0.didTap(view: view, at: $1)
+      $0.didTap(view: view, at: $1, gesture: gesture)
     }
   }
   
-  func didLongPress(view: UIView, at: Int) {
+  func didLongPress(view: UIView, at: Int, gesture: UILongPressGestureRecognizer) {
     apply(at) {
-      $0.didLongPress(view: view, at: $1)
+      $0.didLongPress(view: view, at: $1, gesture: gesture)
     }
   }
 

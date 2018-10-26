@@ -16,20 +16,20 @@ open class BasicProvider<Data, View: UIView>: ItemProvider, LayoutableProvider, 
   public var sizeSource: SizeSource<Data> { didSet { setNeedsReload() } }
   public var layout: Layout { didSet { setNeedsReload() } }
   public var animator: Animator? { didSet { setNeedsReload() } }
-  public var tapHandler: TapHandler?
-  public var longPressHandler: TapHandler?
-
-  public typealias TapHandler = (TapContext) -> Void
-
-  public struct TapContext {
+  public var tapHandler: GestureHandler?
+  public var longPressHandler: GestureHandler?
+  
+  public typealias GestureHandler = (GestureContext) -> Void
+  
+  public struct GestureContext {
     public let view: View
     public let index: Int
     public let dataSource: DataSource<Data>
-
+    public let gesture: UIGestureRecognizer?
     public var data: Data {
       return dataSource.data(at: index)
     }
-
+    
     public func setNeedsReload() {
       dataSource.setNeedsReload()
     }
@@ -41,8 +41,8 @@ open class BasicProvider<Data, View: UIView>: ItemProvider, LayoutableProvider, 
               sizeSource: @escaping SizeSource<Data> = defaultSizeSource,
               layout: Layout = FlowLayout(),
               animator: Animator? = nil,
-              tapHandler: TapHandler? = nil,
-              longPressHandler: TapHandler? = nil) {
+              tapHandler: GestureHandler? = nil,
+              longPressHandler: GestureHandler? = nil) {
     self.dataSource = dataSource
     self.viewSource = viewSource
     self.layout = layout
@@ -73,15 +73,15 @@ open class BasicProvider<Data, View: UIView>: ItemProvider, LayoutableProvider, 
   open func animator(at: Int) -> Animator? {
     return animator
   }
-  open func didTap(view: UIView, at: Int) {
+  open func didTap(view: UIView, at: Int, gesture: UITapGestureRecognizer) {
     if let tapHandler = tapHandler {
-      let context = TapContext(view: view as! View, index: at, dataSource: dataSource)
+      let context = GestureContext(view: view as! View, index: at, dataSource: dataSource, gesture: gesture)
       tapHandler(context)
     }
   }
-  open func didLongPress(view: UIView, at: Int) {
+  open func didLongPress(view: UIView, at: Int, gesture: UILongPressGestureRecognizer) {
     if let longPressHandler = longPressHandler {
-      let context = TapContext(view: view as! View, index: at, dataSource: dataSource)
+      let context = GestureContext(view: view as! View, index: at, dataSource: dataSource, gesture: gesture)
       longPressHandler(context)
     }
   }

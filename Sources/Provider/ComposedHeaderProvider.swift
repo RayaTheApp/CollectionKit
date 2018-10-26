@@ -56,17 +56,18 @@ open class ComposedHeaderProvider<HeaderView: UIView>:
     }
   }
 
-  public var tapHandler: TapHandler?
-  public var longPressHandler: TapHandler?
+  public var tapHandler: GestureHandler?
+  public var longPressHandler: GestureHandler?
 
-  public typealias TapHandler = (TapContext) -> Void
-
-  public struct TapContext {
+  public typealias GestureHandler = (GestureContext) -> Void
+  
+  public struct GestureContext {
     let view: HeaderView
     let index: Int
     let section: Provider
+    let gesture: UIGestureRecognizer?
   }
-
+  
   private var stickyLayout: StickyLayout
   public var internalLayout: Layout { return stickyLayout }
 
@@ -76,8 +77,8 @@ open class ComposedHeaderProvider<HeaderView: UIView>:
               headerViewSource: HeaderViewSource,
               headerSizeSource: @escaping HeaderSizeSource,
               sections: [Provider] = [],
-              tapHandler: TapHandler? = nil,
-              longPressHandler: TapHandler? = nil) {
+              tapHandler: GestureHandler? = nil,
+              longPressHandler: GestureHandler? = nil) {
     self.animator = animator
     self.stickyLayout = StickyLayout(rootLayout: layout)
     self.sections = sections
@@ -133,16 +134,16 @@ open class ComposedHeaderProvider<HeaderView: UIView>:
                               index: index)
   }
 
-  public func didTap(view: UIView, at: Int) {
+  public func didTap(view: UIView, at: Int, gesture: UITapGestureRecognizer) {
     if let tapHandler = tapHandler {
-      let context = TapContext(view: view as! HeaderView, index: at, section: sections[at])
+      let context = GestureContext(view: view as! HeaderView, index: at, section: sections[at], gesture: gesture)
       tapHandler(context)
     }
   }
   
-  open func didLongPress(view: UIView, at: Int) {
+  open func didLongPress(view: UIView, at: Int, gesture: UILongPressGestureRecognizer) {
     if let longPressHandler = longPressHandler {
-      let context = TapContext(view: view as! HeaderView, index: at, section: sections[at])
+      let context = GestureContext(view: view as! HeaderView, index: at, section: sections[at], gesture:gesture)
       longPressHandler(context)
     }
   }
