@@ -34,6 +34,9 @@ open class CollectionView: UIScrollView {
 
   public private(set) var lastLoadBounds: CGRect = .zero
   public private(set) var contentOffsetChange: CGPoint = .zero
+  
+  private var storedLongPressIndex: Int?
+  private var storedLongPressCell: UIView?
 
   lazy var flattenedProvider: ItemProvider = EmptyCollectionProvider()
   var identifierCache: [Int: String] = [:]
@@ -73,11 +76,30 @@ open class CollectionView: UIScrollView {
   }
   
   @objc func longPress(gesture: UILongPressGestureRecognizer) {
-    for (cell, index) in zip(visibleCells, visibleIndexes).reversed() {
-      if cell.point(inside: gesture.location(in: cell), with: nil) {
-        flattenedProvider.didLongPress(view: cell, at: index, gesture: gesture)
-        return
+    // only store the cell on gesture state began so we don't track
+    // other cells if the user moves their finger
+    if gesture.state == .began {
+      for (cell, index) in zip(visibleCells, visibleIndexes).reversed() {
+        if cell.point(inside: gesture.location(in: cell), with: nil) {
+          storedLongPressIndex = index
+          storedLongPressCell = cell
+          break
+        }
       }
+    }
+    
+    guard let index = storedLongPressIndex,
+      let cell = storedLongPressCell else {
+      return
+    }
+    
+    flattenedProvider.didLongPress(view: cell, at: index, gesture: gesture)
+    
+    if (gesture.state == .ended) ||
+      (gesture.state == .cancelled) ||
+      (gesture.state == .failed) {
+      storedLongPressIndex = nil
+      storedLongPressCell = nil
     }
   }
 
