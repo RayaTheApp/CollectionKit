@@ -134,10 +134,10 @@ open class ComposedHeaderProvider<HeaderView: UIView>:
                               index: index)
   }
 
-  open func didTap(view: UIView, at: Int) {
+  open func didTap(view: UIView, at: Int, gesture: UITapGestureRecognizer) {
     if let tapHandler = tapHandler {
       let index = at / 2
-       let context = GestureContext(view: view as! HeaderView, index: at, section: sections[at], gesture: gesture)
+       let context = GestureContext(view: view as! HeaderView, index: index, section: sections[at], gesture: gesture)
       tapHandler(context)
     }
   }
