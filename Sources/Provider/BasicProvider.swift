@@ -9,49 +9,49 @@
 import UIKit
 
 open class BasicProvider<Data, View: UIView>: ItemProvider, LayoutableProvider, CollectionReloadable {
-
-  public var identifier: String?
-  public var dataSource: DataSource<Data> { didSet { setNeedsReload() } }
-  public var viewSource: ViewSource<Data, View> { didSet { setNeedsReload() } }
-  public var sizeSource: SizeSource<Data> { didSet { setNeedsReload() } }
-  public var layout: Layout { didSet { setNeedsReload() } }
-  public var animator: Animator? { didSet { setNeedsReload() } }
-  public var tapHandler: GestureHandler?
-  public var longPressHandler: GestureHandler?
-  
-  public typealias GestureHandler = (GestureContext) -> Void
-  
-  public struct GestureContext {
-    public let view: View
-    public let index: Int
-    public let dataSource: DataSource<Data>
-    public let gesture: UIGestureRecognizer?
-    public var data: Data {
-      return dataSource.data(at: index)
+    
+    open var identifier: String?
+    open var dataSource: DataSource<Data> { didSet { setNeedsReload() } }
+    open var viewSource: ViewSource<Data, View> { didSet { setNeedsReload() } }
+    open var sizeSource: SizeSource<Data> { didSet { setNeedsInvalidateLayout() } }
+    open var layout: Layout { didSet { setNeedsInvalidateLayout() } }
+    open var animator: Animator? { didSet { setNeedsReload() } }
+    open var tapHandler: GestureHandler?
+    open var longPressHandler: GestureHandler?
+    
+    public typealias GestureHandler = (GestureContext) -> Void
+    
+    public struct GestureContext {
+        public let view: View
+        public let index: Int
+        public let dataSource: DataSource<Data>
+        public let gesture: UIGestureRecognizer?
+        public var data: Data {
+            return dataSource.data(at: index)
+        }
+        
+        public func setNeedsReload() {
+            dataSource.setNeedsReload()
+        }
     }
     
-    public func setNeedsReload() {
-      dataSource.setNeedsReload()
+    public init(identifier: String? = nil,
+                dataSource: DataSource<Data>,
+                viewSource: ViewSource<Data, View>,
+                sizeSource: @escaping SizeSource<Data> = defaultSizeSource,
+                layout: Layout = FlowLayout(),
+                animator: Animator? = nil,
+                tapHandler: GestureHandler? = nil,
+                longPressHandler: GestureHandler? = nil) {
+        self.dataSource = dataSource
+        self.viewSource = viewSource
+        self.layout = layout
+        self.sizeSource = sizeSource
+        self.animator = animator
+        self.tapHandler = tapHandler
+        self.longPressHandler = longPressHandler
+        self.identifier = identifier
     }
-  }
-
-  public init(identifier: String? = nil,
-              dataSource: DataSource<Data>,
-              viewSource: ViewSource<Data, View>,
-              sizeSource: @escaping SizeSource<Data> = defaultSizeSource,
-              layout: Layout = FlowLayout(),
-              animator: Animator? = nil,
-              tapHandler: GestureHandler? = nil,
-              longPressHandler: GestureHandler? = nil) {
-    self.dataSource = dataSource
-    self.viewSource = viewSource
-    self.layout = layout
-    self.sizeSource = sizeSource
-    self.animator = animator
-    self.tapHandler = tapHandler
-    self.longPressHandler = longPressHandler
-    self.identifier = identifier
-  }
 
   open var numberOfItems: Int {
     return dataSource.numberOfItems
