@@ -33,7 +33,8 @@ open class SimpleViewProvider: BasicProvider<UIView, UIView> {
                 sizeSource: SizeSource<UIView> = SizeSource<UIView>(),
                 layout: Layout = FlowLayout(),
                 animator: Animator? = nil,
-                tapHandler: TapHandler? = nil) {
+                tapHandler: GestureHandler? = nil,
+                longPressHandler: GestureHandler? = nil) {
         
         viewDataSource = ArrayDataSource(data: views, identifierMapper: identifierMapper)
         
@@ -43,7 +44,8 @@ open class SimpleViewProvider: BasicProvider<UIView, UIView> {
                    sizeSource: sizeSource,
                    layout: layout,
                    animator: animator,
-                   tapHandler: tapHandler)
+                   tapHandler: tapHandler,
+                   longPressHandler: longPressHandler)
     }
     
     public convenience init(identifier: String? = nil,

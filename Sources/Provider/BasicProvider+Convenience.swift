@@ -12,14 +12,16 @@ extension BasicProvider {
                           sizeSource: SizeSource<Data>,
                           layout: Layout = FlowLayout(),
                           animator: Animator? = nil,
-                          tapHandler: TapHandler? = nil) {
+                          tapHandler: GestureHandler? = nil,
+                          longPressHandler: GestureHandler? = nil) {
     self.init(identifier: identifier,
               dataSource: dataSource,
               viewSource: ClosureViewSource(viewUpdater: viewSource),
               sizeSource: sizeSource,
               layout: layout,
               animator: animator,
-              tapHandler: tapHandler)
+              tapHandler: tapHandler,
+              longPressHandler: longPressHandler)
   }
 
   public convenience init(identifier: String? = nil,
@@ -28,14 +30,16 @@ extension BasicProvider {
                           sizeSource: @escaping ClosureSizeSourceFn<Data>,
                           layout: Layout = FlowLayout(),
                           animator: Animator? = nil,
-                          tapHandler: TapHandler? = nil) {
+                          tapHandler: GestureHandler? = nil,
+                          longPressHandler: GestureHandler? = nil) {
     self.init(identifier: identifier,
               dataSource: dataSource,
               viewSource: viewSource,
               sizeSource: ClosureSizeSource(sizeSource: sizeSource),
               layout: layout,
               animator: animator,
-              tapHandler: tapHandler)
+              tapHandler: tapHandler,
+              longPressHandler: longPressHandler)
   }
 
   public convenience init(identifier: String? = nil,
@@ -44,14 +48,16 @@ extension BasicProvider {
                           sizeSource: @escaping ClosureSizeSourceFn<Data>,
                           layout: Layout = FlowLayout(),
                           animator: Animator? = nil,
-                          tapHandler: TapHandler? = nil) {
+                          tapHandler: GestureHandler? = nil,
+                          longPressHandler: GestureHandler? = nil) {
     self.init(identifier: identifier,
               dataSource: dataSource,
               viewSource: ClosureViewSource(viewUpdater: viewSource),
               sizeSource: ClosureSizeSource(sizeSource: sizeSource),
               layout: layout,
               animator: animator,
-              tapHandler: tapHandler)
+              tapHandler: tapHandler,
+              longPressHandler: longPressHandler)
   }
 
   public convenience init(identifier: String? = nil,
@@ -60,14 +66,16 @@ extension BasicProvider {
                           sizeSource: SizeSource<Data>,
                           layout: Layout = FlowLayout(),
                           animator: Animator? = nil,
-                          tapHandler: TapHandler? = nil) {
+                          tapHandler: GestureHandler? = nil,
+                          longPressHandler: GestureHandler? = nil) {
     self.init(identifier: identifier,
               dataSource: ArrayDataSource(data: dataSource),
               viewSource: viewSource,
               sizeSource: sizeSource,
               layout: layout,
               animator: animator,
-              tapHandler: tapHandler)
+              tapHandler: tapHandler,
+              longPressHandler: longPressHandler)
   }
 
   public convenience init(identifier: String? = nil,
@@ -76,14 +84,16 @@ extension BasicProvider {
                           sizeSource: SizeSource<Data>,
                           layout: Layout = FlowLayout(),
                           animator: Animator? = nil,
-                          tapHandler: TapHandler? = nil) {
+                          tapHandler: GestureHandler? = nil,
+                          longPressHandler: GestureHandler? = nil) {
     self.init(identifier: identifier,
               dataSource: ArrayDataSource(data: dataSource),
               viewSource: ClosureViewSource(viewUpdater: viewSource),
               sizeSource: sizeSource,
               layout: layout,
               animator: animator,
-              tapHandler: tapHandler)
+              tapHandler: tapHandler,
+              longPressHandler: longPressHandler)
   }
 
   public convenience init(identifier: String? = nil,
@@ -92,14 +102,16 @@ extension BasicProvider {
                           sizeSource: @escaping ClosureSizeSourceFn<Data>,
                           layout: Layout = FlowLayout(),
                           animator: Animator? = nil,
-                          tapHandler: TapHandler? = nil) {
+                          tapHandler: GestureHandler? = nil,
+                          longPressHandler: GestureHandler? = nil) {
     self.init(identifier: identifier,
               dataSource: ArrayDataSource(data: dataSource),
               viewSource: viewSource,
               sizeSource: ClosureSizeSource(sizeSource: sizeSource),
               layout: layout,
               animator: animator,
-              tapHandler: tapHandler)
+              tapHandler: tapHandler,
+              longPressHandler: longPressHandler)
   }
 
   public convenience init(identifier: String? = nil,
@@ -108,14 +120,16 @@ extension BasicProvider {
                           sizeSource: @escaping ClosureSizeSourceFn<Data>,
                           layout: Layout = FlowLayout(),
                           animator: Animator? = nil,
-                          tapHandler: TapHandler? = nil) {
+                          tapHandler: GestureHandler? = nil,
+                          longPressHandler: GestureHandler? = nil) {
     self.init(identifier: identifier,
               dataSource: ArrayDataSource(data: dataSource),
               viewSource: ClosureViewSource(viewUpdater: viewSource),
               sizeSource: ClosureSizeSource(sizeSource: sizeSource),
               layout: layout,
               animator: animator,
-              tapHandler: tapHandler)
+              tapHandler: tapHandler,
+              longPressHandler: longPressHandler)
   }
 
   public convenience init(identifier: String? = nil,
@@ -123,13 +137,15 @@ extension BasicProvider {
                           viewSource: @escaping ViewUpdaterFn<Data, View>,
                           layout: Layout = FlowLayout(),
                           animator: Animator? = nil,
-                          tapHandler: TapHandler? = nil) {
+                          tapHandler: GestureHandler? = nil,
+                          longPressHandler: GestureHandler? = nil) {
     self.init(identifier: identifier,
               dataSource: ArrayDataSource(data: dataSource),
               viewSource: ClosureViewSource(viewUpdater: viewSource),
               layout: layout,
               animator: animator,
-              tapHandler: tapHandler)
+              tapHandler: tapHandler,
+              longPressHandler: longPressHandler)
   }
 
   public convenience init(identifier: String? = nil,
@@ -137,13 +153,15 @@ extension BasicProvider {
                           viewSource: ViewSource<Data, View>,
                           layout: Layout = FlowLayout(),
                           animator: Animator? = nil,
-                          tapHandler: TapHandler? = nil) {
+                          tapHandler: GestureHandler? = nil,
+                          longPressHandler: GestureHandler? = nil) {
     self.init(identifier: identifier,
               dataSource: ArrayDataSource(data: dataSource),
               viewSource: viewSource,
               layout: layout,
               animator: animator,
-              tapHandler: tapHandler)
+              tapHandler: tapHandler,
+              longPressHandler: longPressHandler)
   }
 
   public convenience init(identifier: String? = nil,
@@ -151,12 +169,14 @@ extension BasicProvider {
                           viewSource: @escaping ViewUpdaterFn<Data, View>,
                           layout: Layout = FlowLayout(),
                           animator: Animator? = nil,
-                          tapHandler: TapHandler? = nil) {
+                          tapHandler: GestureHandler? = nil,
+                          longPressHandler: GestureHandler? = nil) {
     self.init(identifier: identifier,
               dataSource: dataSource,
               viewSource: ClosureViewSource(viewUpdater: viewSource),
               layout: layout,
               animator: animator,
-              tapHandler: tapHandler)
+              tapHandler: tapHandler,
+              longPressHandler: longPressHandler)
   }
 }
